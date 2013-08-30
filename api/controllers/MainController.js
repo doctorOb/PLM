@@ -26,7 +26,7 @@ var MainController = {
 				console.log(password);
 				Users.create({username: username, password: password, name: name}).done(function(error,user){
 					if (error) {
-						req.send('500', {error: "error creating username"});
+						req.send('500', {error: "error creating username,sorry"});
 					} else {
 						req.session.user = user;
 						res.send(user);
