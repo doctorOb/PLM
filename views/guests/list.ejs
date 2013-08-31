@@ -169,7 +169,11 @@
 			console.log('guest list fetch failed!');
 		}
 	});
-
+	$('.guestName-M,.guestName-F').keyup(function(e){
+		if (e.keycode == 13) {
+			$(this).find('.guest-submit').trigger('click');
+		}
+	});
 	$('.guest-submit').click(function(){
 		var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
