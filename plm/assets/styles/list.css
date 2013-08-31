@@ -1,0 +1,53 @@
+.navUsername a {
+	margin-left: 10px;
+}
+
+#guests-container {
+	width: 50%;
+	margin: 0 auto;
+}
+
+.guys-container {
+	float: left;
+	width: 50%;
+}
+
+.girls-container {
+	float: right;
+	width: 50%;
+}
+.list-group.guys {
+
+}
+.list-group.guys .list-group-item {
+	border: 1px solid white;
+	background-color:rgba(255,195,195,.8);
+}
+
+.list-group.guys .list-group-item:hover{
+	background-color: rgba(230,120,120,.8);
+}
+
+.list-group.girls .list-group-item {
+	background-color:rgba(150,241,220,.8);
+	border: 1px solid white;
+}
+
+.list-group.girls .list-group-item:hover {
+	background-color:rgba(100,230,200,.8);
+}
+
+.list-group.girls {
+
+}
+
+.list-group-item {
+	padding: 0;
+	width: 100%;
+}
+.list-group-item input,
+.list-group-item input:focus {
+	outline: none;
+	border: none;
+	background: none;
+}
