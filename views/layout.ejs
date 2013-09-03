@@ -23,9 +23,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
-    <!-- my own login/signin js -->
+    <!-- js and css for page logic and event handling -->
     <script type="text/javascript" src="/js/auth.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/list.css">
+
 
      <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
@@ -38,8 +39,8 @@
     <div class="navbar navbar-static-top">
         <ul style="width:100%" class="nav navbar-nav">
             <a class="navbar-brand" href="/">ListLSS</a>
-            <li class="active"><a href="/list" id="fulllist">View Party List</a></li>
-            <li><a id="mylist" href='#'>My List</a></li>
+            <li class="active"><a id="fulllist">View Party List</a></li>
+            <li><a id="mylist">My List</a></li>
             <p class="navbar-text pull-right navUsername"><a href="/signout">Logout</a></p>
         </ul>
     </div>

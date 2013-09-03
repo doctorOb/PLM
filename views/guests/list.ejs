@@ -4,18 +4,18 @@
       <span class="input-group-btn">
         <button class="btn btn-default guest-submit male" type="button">Go!</button>
       </span>
-      <input type="text" class="form-control guestName-M" placeholder="His name..">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
+      <input id="addM" type="text" class="form-control guestName-M" placeholder="His name..">
+    </div>
+  </div>
   <div class="col-lg-6">
     <div class="input-group">
-      <input type="text" class="form-control guestName-F" placeholder="Her name..">
+      <input id="addF" type="text" class="form-control guestName-F" placeholder="Her name..">
       <span class="input-group-btn">
-        <button class="btn btn-default guest-submit female" type="button">Go!</button>
+      	<button class="btn btn-default guest-submit female" type="button">Go!</button>
       </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
+    </div>
+  </div>
+</div>
 <div id="guests-container" class="full">
 	<div class="guys-container">
 		<h4>Gents <span class="badge" id="guy-count">42</span></h4>
@@ -29,7 +29,6 @@
 
 
 <script type="text/javascript">
-
 	var GuestsModel = Backbone.Model.extend({
 		urlRoot: '/guests',
 	});
@@ -48,6 +47,7 @@
 		guestEditSelector: '.guest-entry',
 		template: _.template("<input class='guest-entry'" +
 							  "value='{{guest.name}}'/>" +
+							  "<span class='addedBy'>{{guest.addedBy}}</span>" +
 							  "<button type='button' class='close'>X</button>"),
 
 		events: {
@@ -66,6 +66,7 @@
 			}
 			this.$el.addClass('list-group-item');
 			this.$el.data({addedBy: guest.addedBy, age: guest.age, id: guest.id});
+			guest.gender == 'M' ? $('#addM').val("") : $('#addF').val("");
 
 			return this;
 		},
@@ -96,11 +97,12 @@
 		},
 
 		killself: function() {
-			this.model.destroy();
-			this.$el.slideUp(100);
+			var that = this;
+			this.$el.slideUp(100,function(){
+				that.model.destroy();
+				that.remove();
+			});
 		}
-
-
 	});
 
 	var GuestListView = Backbone.View.extend({
@@ -170,15 +172,14 @@
 		}
 	});
 	$('.guestName-M,.guestName-F').keyup(function(e){
-		if (e.keycode == 13) {
-			$(this).find('.guest-submit').trigger('click');
+		if (e.keyCode == 13) {
+			$(this).parent().find('.guest-submit').trigger('click');
 		}
 	});
 	$('.guest-submit').click(function(){
 		var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
-		console.log(gender);
 		if (name.split(' ').length > 1) {
 			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"}, {wait: true});
 		} else {
@@ -187,16 +188,14 @@
 	});
 
 	$('#mylist').click(function(){
-		if($(this).hasClass('active') == false) {
-			$('li').children('.guest-entry').parent().hide(400,function(){
-				$('li').children('.editable').parent().show(400);
-			});
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
 		}
 	});
 	$('#fulllist').click(function(){
-		$('li').children('.guest-entry').parent().hide(400,function(){
-			$('li').children('.guest-entry').parent().show();
-		});
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry').parent().slideDown();
+		}
 	});
 
 	$('.navbar-nav').children('li').click(function(){

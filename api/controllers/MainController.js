@@ -29,7 +29,7 @@ var MainController = {
 						req.send('500', {error: "error creating username,sorry"});
 					} else {
 						req.session.user = user;
-						res.send(user);
+						res.redirect('/list');
 					}
 				});
 			}
@@ -40,7 +40,6 @@ var MainController = {
 		if (req.session.user) {
 			req.session.user = null;
 		}
-
 		res.redirect('/');
 	}
 
