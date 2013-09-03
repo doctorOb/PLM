@@ -12,7 +12,7 @@ module.exports = {
   	guestID: 'INT',
   	name: 'STRING',
   	dateOfBirth: 'STRING',
-  	wpiID: 'STRING,
+  	wpiID: 'STRING',
   	gender: 'STRING',
   	addedBy: 'STRING'
   }
