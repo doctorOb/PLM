@@ -98,8 +98,18 @@
 
 		killself: function() {
 			var that = this;
+			var shouldRemove = true;
+			that.model.destroy({
+				error: function(model, response){
+					if (response.responseText.length > 0) {
+						alert(response.responseText);
+						shouldRemove = false;
+					}
+				},
+				wait: true}
+			);
+			
 			this.$el.slideUp(100,function(){
-				that.model.destroy();
 				that.remove();
 			});
 		}
@@ -181,7 +191,12 @@
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
 		if (name.split(' ').length > 1) {
-			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"}, {wait: true});
+			guestList.create({name: name, gender: gender, addedBy: "<%= username %>"}, {
+				error: function(model, response){
+					alert(response.responseText);
+				},
+				wait: true}
+			);
 		} else {
 			alert('please include a first and last name');
 		}
