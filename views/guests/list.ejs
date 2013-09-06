@@ -18,12 +18,12 @@
 </div>
 <div id="guests-container" class="full">
 	<div class="guys-container">
-		<h4>Gents <span class="badge" id="guy-count">42</span></h4>
-		<ul class="list-group guys"></ul>
+		<h4>Gents <span class="badge" id="guy-count">0</span></h4>
+		<ul class="list-group guys" id="guy-list"></ul>
 	</div>
 	<div class="girls-container">
-		<h4>Dames <span class="badge" id="girl-count">23</span></h4>
-		<ul class="list-group girls"></ul>
+		<h4>Dames <span class="badge" id="girl-count">0</span></h4>
+		<ul class="list-group girls" id="girl-list"></ul>
 	</div>
 </div>
 
@@ -192,10 +192,12 @@
 	});
 
 	var guestList = new GuestsCollection();
+	var isMyList = false;
 
 	guestList.fetch({
 		success: function() {
 			var gView = new GuestListView({collection: guestList});
+			$('#mylist').click();
 		},
 		error: function() {
 			console.log('guest list fetch failed!');
@@ -222,13 +224,35 @@
 		}
 	});
 	$('#mylist').click(function(){
+		if (isMyList) return;
+		isMyList = true;
+
 		if($(this).parent().hasClass('active') == false) {
 			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
 		}
+		for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
+			var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
+			if ($('#guy-list').has(box).length) {
+				$('#guy-count').text($('#guy-count').text() - 1.0);
+			} else {
+				$('#girl-count').text($('#girl-count').text() - 1.0);
+			}
+		}
 	});
 	$('#fulllist').click(function(){
+		if (!isMyList) return;
+		isMyList = false;
+
 		if($(this).parent().hasClass('active') == false) {
-			$('li').children('.guest-entry').parent().slideDown();
+			$('li').children('.guest-entry:not(.editable)').parent().slideDown();
+		}
+		for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
+			var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
+			if ($('#guy-list').has(box).length) {
+				$('#guy-count').text($('#guy-count').text() - (-1));
+			} else {
+				$('#girl-count').text($('#girl-count').text() - (-1));
+			}
 		}
 	});
 	$('.navbar-nav').children('li').click(function(){
