@@ -1,0 +1,229 @@
+<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default guest-submit male" type="button">Go!</button>
+      </span>
+      <input id="addM" type="text" class="form-control guestName-M" placeholder="His name..">
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input id="addF" type="text" class="form-control guestName-F" placeholder="Her name..">
+      <span class="input-group-btn">
+      	<button class="btn btn-default guest-submit female" type="button">Go!</button>
+      </span>
+    </div>
+  </div>
+</div>
+<div id="guests-container" class="full">
+	<div class="guys-container">
+		<h4>Gents <span class="badge" id="guy-count">42</span></h4>
+		<ul class="list-group guys"></ul>
+	</div>
+	<div class="girls-container">
+		<h4>Dames <span class="badge" id="girl-count">23</span></h4>
+		<ul class="list-group girls"></ul>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var GuestsModel = Backbone.Model.extend({
+		urlRoot: '/guests',
+	});
+
+	var GuestsCollection = Backbone.Collection.extend({
+		url: '/guests',
+		model: GuestsModel
+	});
+	_.templateSettings = {
+	    interpolate : /\{\{(.+?)\}\}/g
+	};
+
+	var editTimeout = null;
+	var GuestView = Backbone.View.extend({
+		tagName: 'li',
+		guestEditSelector: '.guest-entry',
+		template: _.template("<input class='guest-entry'" +
+							  "value='{{guest.name}}'/>" +
+							  "<span class='addedBy'>{{guest.addedBy}}</span>" +
+							  "<button type='button' class='close'>X</button>"),
+
+		events: {
+			'keyup .guest-entry.editable' : 'editEntry',
+			'click .close' : 'killself'
+		},
+
+		render: function() {
+			var guest = this.model.toJSON();
+			this.$el.html(this.template({guest: guest}));
+
+			if (guest.addedBy == '<%= username %>') {
+				this.$el.find(this.guestEditSelector).addClass('editable');
+			} else {
+				this.$el.find(this.guestEditSelector).attr('readonly',true);
+			}
+			this.$el.addClass('list-group-item');
+			this.$el.data({addedBy: guest.addedBy, age: guest.age, id: guest.id});
+			guest.gender == 'M' ? $('#addM').val("") : $('#addF').val("");
+
+			return this;
+		},
+
+		editEntry: function() {
+			var guest = this.model.toJSON();
+			var self = this;
+			clearTimeout(editTimeout);
+
+			editTimeout = setTimeout(function(){
+				var text = self.$el.find(self.guestEditSelector).val();
+				if (text === guest.name) {
+					return false;
+				} else {
+					console.log(self.model);
+					self.model.set({name: text});
+					self.model.save({name: text},{
+						success: function(model, resp) {
+							console.log('success!');
+						},
+						error: function(model, resp) {
+							console.log('failed to update entry');
+						}
+					});
+				}
+			},1000)
+		},
+
+		killself: function() {
+			var that = this;
+			var shouldRemove = true;
+			that.model.destroy({
+				error: function(model, response){
+					if (response.responseText.length > 0) {
+						alert(response.responseText);
+						shouldRemove = false;
+					}
+				},
+				wait: true}
+			);
+			
+			this.$el.slideUp(100,function(){
+				that.remove();
+			});
+		}
+	});
+
+	var GuestListView = Backbone.View.extend({
+		el: $('#guests-container'),
+		guys: 0,
+		girls: 0,
+
+		initialize: function() {
+			this.collection.on('add', this.add, this);
+			this.collection.on('remove',this.remove,this);
+			this.render();
+		},
+
+		appendByGender: function(guest) {
+			if(guest.toJSON().gender === 'M'){
+				$('.list-group.guys').append(new GuestView({model: guest}).render().el);
+			} else {
+				$('.list-group.girls').append(new GuestView({model: guest}).render().el);
+			}
+		},
+
+		updateCount: function(guest,delta,norender) {
+			if (guest.toJSON().gender === 'M') {
+				this.guys = this.guys + delta;
+			} else {
+				this.girls = this.girls + delta;
+			}
+
+			if(!norender) {
+				$('#guy-count').text(this.guys);
+				$('#girl-count').text(this.girls);
+			}
+		},
+
+		render: function () {
+			this.collection.each(function(guest){
+				this.appendByGender(guest);
+				if (guest.toJSON().gender == 'M') {
+					this.updateCount(guest,1,true)
+				} else {
+					this.updateCount(guest,1,true)
+				}
+			},this);
+
+			$('#guy-count').text(this.guys);
+			$('#girl-count').text(this.girls);
+
+			return this;
+		},
+		add: function (guest) {
+			console.log(guest,"asdfasdf");
+			this.appendByGender(guest);
+			this.updateCount(guest,1)
+		},
+		remove: function (guest) {
+			this.collection.remove(guest);
+			this.updateCount(guest,-1);
+		}
+	});
+
+	var guestList = new GuestsCollection();
+
+	guestList.fetch({
+		success: function() {
+			var gView = new GuestListView({collection: guestList});
+		},
+		error: function() {
+			console.log('guest list fetch failed!');
+		}
+	});
+	$('.guestName-M,.guestName-F').keyup(function(e){
+		if (e.keyCode == 13) {
+			$(this).parent().find('.guest-submit').trigger('click');
+		}
+	});
+	$('.guest-submit').click(function(){
+		var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
+		var gender = $(this).hasClass('male') ? 'M' : 'F';
+
+		if (name.split(' ').length > 1) {
+<<<<<<< HEAD
+			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"},{
+				error: function(model,response){
+					console.log(response);
+				},
+				wait: true});
+=======
+			guestList.create({name: name, gender: gender, addedBy: "<%= username %>"}, {
+				error: function(model, response){
+					alert(response.responseText);
+				},
+				wait: true}
+			);
+>>>>>>> e574baed8ea53285162ee491e30cc116e458ce5b
+		} else {
+			alert('please include a first and last name');
+		}
+	});
+
+	$('#mylist').click(function(){
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
+		}
+	});
+	$('#fulllist').click(function(){
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry').parent().slideDown();
+		}
+	});
+
+	$('.navbar-nav').children('li').click(function(){
+		$('.navbar-nav li.active').removeClass('active');
+		$(this).addClass('active');
+	})
+</script>

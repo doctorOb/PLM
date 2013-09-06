@@ -1,4 +1,9 @@
 module.exports = function(req,res,next) {
+<<<<<<< HEAD
+	console.log(res);
+	res.send(500,'no');
+=======
+
 	var isDuplicate = false;
 	Guests.findOneByName(req.param('name')).done(function(err, guest){
 		if (guest != null) {
@@ -8,7 +13,8 @@ module.exports = function(req,res,next) {
 	});
 
 	if (isDuplicate) return;
-
+	
+>>>>>>> e574baed8ea53285162ee491e30cc116e458ce5b
 	if (req.param('gender') == 'F') {
 		next();
 	} else {
