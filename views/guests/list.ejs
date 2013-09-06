@@ -91,7 +91,6 @@
 							console.log('failed to update entry');
 						}
 					});
-					console.log('model updated',self.model.get('name'));
 				}
 			},1000)
 		},
@@ -109,6 +108,7 @@
 		el: $('#guests-container'),
 		guys: 0,
 		girls: 0,
+
 		initialize: function() {
 			this.collection.on('add', this.add, this);
 			this.collection.on('remove',this.remove,this);
@@ -152,6 +152,7 @@
 			return this;
 		},
 		add: function (guest) {
+			console.log(guest,"asdfasdf");
 			this.appendByGender(guest);
 			this.updateCount(guest,1)
 		},
@@ -181,7 +182,11 @@
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
 		if (name.split(' ').length > 1) {
-			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"}, {wait: true});
+			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"},{
+				error: function(model,response){
+					console.log(response);
+				},
+				wait: true});
 		} else {
 			alert('please include a first and last name');
 		}

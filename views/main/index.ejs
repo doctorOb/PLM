@@ -5,7 +5,8 @@
 	<button type="button" class="login-submit">Login</button>
 </div>
 
-<div class="signup-container">
+<a href="#" id="show-signup">Sign up</a>
+<div style="display: none" class="signup-container">
 	<input type="text" class="username" placeholder="name" />
 	<input type="text" class="firstname" placeholder="first name" />
 	<input type="text" class="lastname" placeholder="last name" />
@@ -13,3 +14,18 @@
 	<input type="password" class="password-check" placeholder="retype password" />
 	<button type="button" class="signup-submit">Sign Up</button>
 </div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#topBanner').remove();
+
+	$('#show-signup').click(function(){
+		if ($('.signup-container').is(':visible'))
+			return;
+		
+		$('.signup-container').show(400);
+	});
+
+});
+</script>

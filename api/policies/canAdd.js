@@ -1,4 +1,6 @@
 module.exports = function(req,res,next) {
+	console.log(res);
+	res.send(500,'no');
 	if (req.param('gender') == 'F') {
 		next();
 	} else {
