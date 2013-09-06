@@ -16,8 +16,8 @@ TODOS:
  - Make 'My List' default when logged in
  - Add (working) search bar to 'Full List' and remove guest add functionality for this
  - Add admin console with functionality to
-     > manually lock the party list so no more additions can be made
-     > specify a time to open / close the list
-     > Edit the configs (minimumGirlRatio, duplicate names, ect)
-     > Lookup guests added by users
+     - manually lock the party list so no more additions can be made
+     - specify a time to open / close the list
+     - Edit the configs (minimumGirlRatio, duplicate names, ect)
+     - Lookup guests added by users
  - Web Sockets to send push requests to all connected clients whenever a new guest is added (update the counts)
