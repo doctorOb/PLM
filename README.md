@@ -21,3 +21,7 @@ TODOS:
      - Edit the configs (minimumGirlRatio, duplicate names, ect)
      - Lookup guests added by users
  - Web Sockets to send push requests to all connected clients whenever a new guest is added (update the counts)
+ - Add gui buttons to inline guest entries. These would be:
+     - A plus button to hover over (shows who added)
+     - A 21+ button to indicate if they are over 21
+     - A card button to show whether they have a wpi card enrolled.
