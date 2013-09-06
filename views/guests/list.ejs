@@ -192,20 +192,12 @@
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
 		if (name.split(' ').length > 1) {
-<<<<<<< HEAD
-			guestList.create({name: name, age: 21, gender: gender, addedBy: "<%= username %>"},{
-				error: function(model,response){
-					console.log(response);
-				},
-				wait: true});
-=======
 			guestList.create({name: name, gender: gender, addedBy: "<%= username %>"}, {
 				error: function(model, response){
 					alert(response.responseText);
 				},
 				wait: true}
 			);
->>>>>>> e574baed8ea53285162ee491e30cc116e458ce5b
 		} else {
 			alert('please include a first and last name');
 		}
