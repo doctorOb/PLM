@@ -120,16 +120,17 @@
 
 		killself: function() {
 			var that = this;
+			console.log('called');
 			that.model.destroy({
-				error: function(model, response){
-					if (response.responseText.length > 0) {
-						alert(response.responseText);
-					}
-				},
 				success: function(model, response) {
 					that.$el.slideUp(100,function(){
 						that.remove();
 					});
+				},
+				error: function(model, response){
+					if (response.responseText.length > 0) {
+						alert(response.responseText);
+					}
 				},
 				wait: true}
 			);
