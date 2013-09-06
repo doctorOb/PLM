@@ -105,12 +105,13 @@
 						shouldRemove = false;
 					}
 				},
+				success: function(model, response) {
+					that.$el.slideUp(100,function(){
+						that.remove();
+					});
+				},
 				wait: true}
 			);
-			
-			this.$el.slideUp(100,function(){
-				that.remove();
-			});
 		}
 	});
 
