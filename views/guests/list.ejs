@@ -29,6 +29,29 @@
 
 
 <script type="text/javascript">
+
+
+	function verifyName(name) {
+		var noInject = /[\^<,\"@\/\{\}\(\)\*\$%\?=>:\|;#]+/i;
+		if(name.match(noInject)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function formatName(name) {
+		var parts = name.split(" ");
+		var formated = "";
+		var words = 0;
+		for (var i = 0; i < parts.length ; i++) {
+			if (parts[i].length > 0 && words <= 4) {
+				formated = formated + parts[i] + " ";
+				words++;
+			}
+		}
+		return formated.trim();
+	}
 	var GuestsModel = Backbone.Model.extend({
 		urlRoot: '/guests',
 	});
@@ -80,8 +103,8 @@
 				var text = self.$el.find(self.guestEditSelector).val();
 				if (text === guest.name) {
 					return false;
-				} else {
-					console.log(self.model);
+				} else if (verifyName(text)){
+					text = formatName(text);
 					self.model.set({name: text});
 					self.model.save({name: text},{
 						success: function(model, resp) {
@@ -97,12 +120,10 @@
 
 		killself: function() {
 			var that = this;
-			var shouldRemove = true;
 			that.model.destroy({
 				error: function(model, response){
 					if (response.responseText.length > 0) {
 						alert(response.responseText);
-						shouldRemove = false;
 					}
 				},
 				success: function(model, response) {
@@ -192,8 +213,8 @@
 		var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
 		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
-		if (name.split(' ').length > 1) {
-			guestList.create({name: name, gender: gender, addedBy: "<%= username %>"}, {
+		if (verifyName(name)) {
+			guestList.create({name: formatName(name), gender: gender, addedBy: "<%= username %>"}, {
 				error: function(model, response){
 					alert(response.responseText);
 				},
@@ -203,7 +224,6 @@
 			alert('please include a first and last name');
 		}
 	});
-
 	$('#mylist').click(function(){
 		if($(this).parent().hasClass('active') == false) {
 			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
@@ -214,9 +234,8 @@
 			$('li').children('.guest-entry').parent().slideDown();
 		}
 	});
-
 	$('.navbar-nav').children('li').click(function(){
 		$('.navbar-nav li.active').removeClass('active');
 		$(this).addClass('active');
-	})
+	});
 </script>
