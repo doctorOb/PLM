@@ -11,7 +11,8 @@ module.exports = {
   attributes: {
   	guestID: 'INT',
   	name: 'STRING',
-  	age: 'INT',
+  	dateOfBirth: 'STRING',
+  	cardID: 'STRING',
   	gender: 'STRING',
   	addedBy: 'STRING'
   }

@@ -1,6 +1,20 @@
 module.exports = function(req,res,next) {
+<<<<<<< HEAD
 	console.log(res);
 	res.send(500,'no');
+=======
+
+	var isDuplicate = false;
+	Guests.findOneByName(req.param('name')).done(function(err, guest){
+		if (guest != null) {
+			res.send(400, 'duplicate user');
+			isDuplicate = true;
+		}
+	});
+
+	if (isDuplicate) return;
+	
+>>>>>>> e574baed8ea53285162ee491e30cc116e458ce5b
 	if (req.param('gender') == 'F') {
 		next();
 	} else {
@@ -16,13 +30,19 @@ module.exports = function(req,res,next) {
 			if (err) {
 				next(); //no configs to check, pass on
 			}
-			var minGirls = conf.minimumGirlRatio;
-			if (minGirls > 0) {
-				var allowable = Math.floor(girlCount / minGirls);
+			var ratio = conf.minimumGirlRatio;
+			if (ratio > 0) {
+				var allowable = Math.floor(girlCount / ratio);
 				if (guyCount < allowable) {
 					next();
+				} else {
+					res.send(400, 'must have a girl:guy ratio of ' + ratio + ':1');
 				}
+			}
+			else {
+				next();
 			}
 		});
 	}
+
 };
