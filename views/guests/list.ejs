@@ -120,7 +120,6 @@
 
 		killself: function() {
 			var that = this;
-			console.log('called');
 			that.model.destroy({
 				success: function(model, response) {
 					that.$el.slideUp(100,function(){
@@ -128,9 +127,7 @@
 					});
 				},
 				error: function(model, response){
-					if (response.responseText.length > 0) {
-						alert(response.responseText);
-					}
+					alert(response.responseText);
 				},
 				wait: true}
 			);
@@ -185,7 +182,6 @@
 			return this;
 		},
 		add: function (guest) {
-			console.log(guest,"asdfasdf");
 			this.appendByGender(guest);
 			this.updateCount(guest,1)
 		},
