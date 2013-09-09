@@ -55,6 +55,16 @@ module.exports.routes = {
   '/list': {
     controller: 'guests',
     action: 'list'
+  },
+
+  '/admin': {
+    controller: 'configs',
+    action: 'index'
+  },
+
+   '/adminupdate': {
+    controller: 'configs',
+    action: 'update'
   }
 
   /*

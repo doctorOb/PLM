@@ -14,7 +14,7 @@ var GuestsController = {
   	} else {
   		res.redirect('/');
   	}
-  },
+  }
   
 };
 

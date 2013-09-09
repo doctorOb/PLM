@@ -1,0 +1,41 @@
+<h1>Admin Console</h1>
+<div class="login-container">
+	<input id='org' type="text" class="organization" />
+	<input id='adm' type="text" class="adminUsername" />
+	<input id='mgr' type="text" class="minimumGirlRatio" />
+	<button type="button" class="admin-submit">Update</button>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#org').val('<%= conf.organization %>');
+	$('#adm').val('<%= conf.adminUsername %>');
+	$('#mgr').val('<%= conf.minimumGirlRatio %>');
+});
+
+
+$('.admin-submit').click(function(){
+
+	var organization = $('#org').val();
+	var adminUsername = $('#adm').val();
+	var minimumGirlRatio = $('#mgr').val();
+
+	$.post('/adminupdate',
+		{organization: organization,
+		adminUsername: adminUsername,
+		minimumGirlRatio: minimumGirlRatio},
+		function(res){
+			alert('config updated');
+			console.log(res.responseText);
+			if (res.status == 'OK') {
+				window.location = '/admin';
+			}
+		}).fail(function(res){
+			alert('fail');
+			if(window.console){
+				console.log(res.responseText);
+			}
+		});
+});
+
+</script>

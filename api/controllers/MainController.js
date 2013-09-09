@@ -8,6 +8,9 @@
 var MainController = {
 
 	index: function (req, res) {
+		if (req.session.user) {
+			req.session.user = null;
+		}
 		res.view();
 	},
 	signup: function (req, res) {
