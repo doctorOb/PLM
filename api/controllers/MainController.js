@@ -8,7 +8,7 @@
 var MainController = {
 
 	index: function (req, res) {
-		res.view();
+		res.view({user: req.session.user});
 	},
 	signup: function (req, res) {
 		var username = req.param('username');
@@ -23,13 +23,13 @@ var MainController = {
 			} else {
 				var hasher = require('password-hash');
 				password = hasher.generate(password);
-				console.log(password);
 				Users.create({username: username, password: password, name: name}).done(function(error,user){
 					if (error) {
 						req.send('500', {error: "error creating username,sorry"});
 					} else {
 						req.session.user = user;
-						res.redirect('/list');
+						console.log(user);
+						res.redirect('/verify');
 					}
 				});
 			}
@@ -41,6 +41,22 @@ var MainController = {
 			req.session.user = null;
 		}
 		res.redirect('/');
+	},
+
+	verify: function(req,res) {
+		var key = req.param('token');
+		Users.update({
+			verifyToken: key,
+		},{
+			verified: true,
+			verifyToken: ''
+		},function(err,user){
+			if(err){
+				console.log(err);
+			} else {
+				res.view({user: user});
+			}
+		});
 	}
 
 };

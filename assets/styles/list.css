@@ -2,22 +2,25 @@
 	margin-left: 10px;
 }
 
+
+
 #guests-container {
-	width: 50%;
 	margin: 0 auto;
+}
+
+#guests-container h4 {
+	text-align: center;
 }
 
 .guys-container {
 	float: left;
-	width: 50%;
 }
 
 .girls-container {
 	float: right;
-	width: 50%;
 }
-.list-group.guys {
-
+.list-group {
+	width: 500px;
 }
 .list-group.guys .list-group-item {
 	border: 1px solid white;
@@ -36,18 +39,24 @@
 .list-group.girls .list-group-item:hover {
 	background-color:rgba(100,230,200,.8);
 }
-
-.list-group.girls {
-
-}
-
 .list-group-item {
 	padding: 0;
 	width: 100%;
+	padding: 10px 10px 10px 15px !important;
 }
+
+.list-group-item .guest-entry.editable {
+	width: 70%;
+}
+
+
 .list-group-item input,
 .list-group-item input:focus {
 	outline: none;
 	border: none;
 	background: none;
+}
+
+.list-group-item .addedBy {
+	color: #CCC;
 }

@@ -11,7 +11,7 @@ module.exports = function(req,res,next) {
 
 		Configs.findByOrganization('SigmaPiGammaIota').done(function(err,conf){
 			conf = conf[0];
-			if (err) {
+			if (conf.length == 0 || err) {
 				return next(); //no configs to check, pass on
 			}
 			var ratio = conf.minimumGirlRatio;

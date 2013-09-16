@@ -1,6 +1,8 @@
 module.exports = function(req,res,next) {
 	var isDuplicate = false;
-	Guests.findOneByName(req.param('name')).done(function(err, guest){
+	compareReqName = req.param('name').replace(/ /,'').toLowerCase();
+
+	Guests.findOneByCompareableName(compareReqName).done(function(err, guest){
 		if (guest != null) {
 			res.send(400, 'duplicate user');
 			isDuplicate = true;
@@ -18,10 +20,11 @@ module.exports = function(req,res,next) {
 				guestsAddedByUser[i].gender == 'M' ? guyCount++ : girlCount++;
 			}
 			Configs.findByOrganization('SigmaPiGammaIota').done(function(err,conf){
-				conf = conf[0];
-				if (err) {
-					next(); //no configs to check, pass on
+				console.log(conf);
+				if (conf.length == 0 || err) {
+					return next(); //no configs to check, pass on
 				}
+				conf = conf[0];
 				var ratio = conf.minimumGirlRatio;
 				if (ratio > 0) {
 					var allowable = Math.floor(girlCount / ratio);

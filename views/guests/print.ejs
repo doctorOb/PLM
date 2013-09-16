@@ -1,0 +1,32 @@
+<h1>Guys</h1>
+<table class="ui celled table segment">
+	<thead>
+		<tr><th>Name</th>
+			<th>Signature</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for(var i = 0; i < guysList.length; i++) {%>
+			<tr>
+				<td><%= guysList[i].lastName %>, <%= guysList[i].firstName %></td>
+				<td></td>
+			</tr>
+		<% } %>
+	</tbody>
+</table>
+<h1>Girls</h1>
+<table class="ui celled table segment">
+	<thead>
+		<tr><th>Name</th>
+			<th>Signature</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for(var i = 0; i < girlsList.length; i++) {%>
+			<tr>
+				<td><%= girlsList[i].lastName %>, <%= girlsList[i].firstName %></td>
+				<td></td>
+			</tr>
+		<% } %>
+	</tbody>
+</table>

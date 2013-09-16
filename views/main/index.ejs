@@ -1,18 +1,67 @@
-<h1>PLM - An all in one party list</h1>
-<div class="login-container">
-	<input type="text" class="username" placeholder="name" />
-	<input type="password" class="password" placeholder="password" />
-	<button type="button" class="login-submit">Login</button>
-</div>
-
-<a href="#" id="show-signup">Sign up</a>
-<div style="display: none" class="signup-container">
-	<input type="text" class="username" placeholder="name" />
-	<input type="text" class="firstname" placeholder="first name" />
-	<input type="text" class="lastname" placeholder="last name" />
-	<input type="password" class="password" placeholder="password" />
-	<input type="password" class="password-check" placeholder="retype password" />
-	<button type="button" class="signup-submit">Sign Up</button>
+<div class="ui two column middle aligned grid basic segment">
+	<div class="column">
+		<div id="login-form" class="ui small form segment">
+			<div class="field">
+				<label>Email</label>
+				<div class="ui left labeled icon input">
+					<input type="text" id="login-email" placeholder="Email">
+					<i class="user icon"></i>
+				</div>
+			</div>
+			<div class="field">
+				<label>Password</label>
+				<div class="ui left labeled icon input">
+					<input type="password" id="login-password" placeholder="Password">
+					<i class="lock icon"></i>
+				</div>
+			</div>
+			<div class="ui error message">
+				<div class="header">There were issues with your login</div>
+			</div>
+			<div id="login-submit" class="ui blue submit button">Login</div>
+		</div>
+	</div>
+	<div class="ui vertical divider">Or</div>
+	<div class="center aligned column">
+		<div id="signup-begin" class="huge green ui labeled icon button">
+			<i class="icon add user"></i>
+			Sign Up
+		</div>
+		<div style="display: none" id="signup-form" class="center aligned column">
+			<div class="ui small form segment">
+				<div class="field">
+					<label>Email</label>
+					<div class="ui left labeled icon input">
+						<input type="text" id="signup-email" placeholder="email">
+						<i class="email icon"></i>
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>First Name</label>
+						<input type="text" id="signup-fname" placeholder="First Name">
+					</div>
+					<div class="field">
+						<label>Last Name</label>
+						<input type="text" id="signup-lname" placeholder="Last Name">
+					</div>
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Password</label>
+						<input type="password" id="signup-password" placeholder="Password">
+					</div>
+					<div class="field">
+						<label>Retype Password</label>
+						<input type="password" id="signup-passwordCheck" placeholder="Retype Password">
+					</div>
+				</div>
+				<div id="signup-submit" class="green ui button">
+					Sign Up
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -26,6 +75,8 @@ $(document).ready(function(){
 		
 		$('.signup-container').show(400);
 	});
+
+
 
 });
 </script>

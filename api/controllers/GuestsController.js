@@ -15,6 +15,33 @@ var GuestsController = {
   		res.redirect('/');
   	}
   },
+
+  print: function(req,res) {
+  	var guys, girls;
+  	Guests.find({
+  		gender: 'M'
+  	}).sort('lastName ASC').done(function(err,guests){
+  		if(err){
+  			return console.log(err);
+  		} else {
+  			guys = guests;
+  			console.log(guys);
+  		}
+  	});
+
+  	Guests.find({
+  		gender: 'F'
+  	}).sort('lastName ASC').done(function(err,guests){
+  		if(err){
+  			return console.log(err);
+  		} else {
+  			girls = guests;
+  			console.log(girls);
+  		}
+  	});
+
+  	res.view({guysList: guys, girlsList: girls});
+  }
   
 };
 

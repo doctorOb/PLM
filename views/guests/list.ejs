@@ -1,29 +1,28 @@
-<div class="row">
-  <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default guest-submit male" type="button">Go!</button>
-      </span>
-      <input id="addM" type="text" class="form-control guestName-M" placeholder="His name..">
-    </div>
-  </div>
-  <div class="col-lg-6">
-    <div class="input-group">
-      <input id="addF" type="text" class="form-control guestName-F" placeholder="Her name..">
-      <span class="input-group-btn">
-      	<button class="btn btn-default guest-submit female" type="button">Go!</button>
-      </span>
-    </div>
-  </div>
-</div>
-<div id="guests-container" class="full">
-	<div class="guys-container">
-		<h4>Gents <span class="badge" id="guy-count">42</span></h4>
-		<ul class="list-group guys"></ul>
+<div id="guests-container" class="ui two column middle aligned grid basic segment">
+	<div class="guys-container column">
+		<div class="ui form">
+			<h4>Gents <div class="ui red label" id="guy-count">42</div></h4>
+			<div class="field">
+				<div class="ui action input">
+					<input id="addM" class="guestName-M" type="text" placeholder="His name...">
+					<div class="ui icon button guest-submit male"><i class="add user icon"></i></div>
+				</div>
+			</div>
+		</div>
+		<div class="ui selection list list-group guys"></div>
 	</div>
-	<div class="girls-container">
-		<h4>Dames <span class="badge" id="girl-count">23</span></h4>
-		<ul class="list-group girls"></ul>
+	<div class="ui vertical divider"></div>
+	<div class="girls-container column">
+		<div class="ui form">
+			<h4>Dames <div class="ui teal label" id="girl-count">23</div></h4>
+			<div class="field">
+				<div class="ui action input">
+					<input type="text" id="addF" class="guestName-F" placeholder="Her name...">
+					<div class="ui icon button guest-submit female"><i class="add user icon"></i></div>
+				</div>
+			</div>
+		</div>
+		<div class="ui selection list list-group girls"></div>
 	</div>
 </div>
 
@@ -32,6 +31,9 @@
 
 
 	function verifyName(name) {
+		if(name.replace(/ /,'').length == 0){
+			return false;
+		}
 		var noInject = /[\^<,\"@\/\{\}\(\)\*\$%\?=>:\|;#]+/i;
 		if(name.match(noInject)) {
 			return false;
@@ -70,8 +72,8 @@
 		guestEditSelector: '.guest-entry',
 		template: _.template("<input class='guest-entry'" +
 							  "value='{{guest.name}}'/>" +
-							  "<span class='addedBy'>{{guest.addedBy}}</span>" +
-							  "<button type='button' class='close'>X</button>"),
+							  "<span class='addedBy'>added by {{addedBy}}</span>" +
+							  "<i class='close icon'></i>"),
 
 		events: {
 			'keyup .guest-entry.editable' : 'editEntry',
@@ -80,7 +82,9 @@
 
 		render: function() {
 			var guest = this.model.toJSON();
-			this.$el.html(this.template({guest: guest}));
+			var addedBy = guest.addedBy.split('@')[0];
+			this.$el.html(this.template({guest: guest, addedBy: addedBy}));
+
 
 			if (guest.addedBy == '<%= username %>') {
 				this.$el.find(this.guestEditSelector).addClass('editable');
@@ -120,7 +124,6 @@
 
 		killself: function() {
 			var that = this;
-			console.log('called');
 			that.model.destroy({
 				success: function(model, response) {
 					that.$el.slideUp(100,function(){
@@ -205,38 +208,43 @@
 			console.log('guest list fetch failed!');
 		}
 	});
-	$('.guestName-M,.guestName-F').keyup(function(e){
-		if (e.keyCode == 13) {
-			$(this).parent().find('.guest-submit').trigger('click');
-		}
-	});
-	$('.guest-submit').click(function(){
-		var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
-		var gender = $(this).hasClass('male') ? 'M' : 'F';
 
-		if (verifyName(name)) {
-			guestList.create({name: formatName(name), gender: gender, addedBy: "<%= username %>"}, {
-				error: function(model, response){
-					alert(response.responseText);
-				},
-				wait: true}
-			);
-		} else {
-			alert('please include a first and last name');
-		}
-	});
-	$('#mylist').click(function(){
-		if($(this).parent().hasClass('active') == false) {
+	$(document).ready(function(){
+		$('#listViewOptions').show();
+		$('#partList').addClass('active');
+		$('.guestName-M,.guestName-F').keyup(function(e){
+			if (e.keyCode == 13) {
+				$(this).parent().find('.guest-submit').trigger('click');
+			}
+		});
+		$('.guest-submit').click(function(){
+			var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
+			var gender = $(this).hasClass('male') ? 'M' : 'F';
+
+			if (verifyName(name)) {
+				guestList.create({name: formatName(name), gender: gender, addedBy: "<%= username %>"}, {
+					error: function(model, response){
+						alert(response.responseText);
+					},
+					wait: true}
+				);
+			} else {
+				alert('please include a first and last name');
+			}
+		});
+		$('#mylist').click(function(){
 			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
-		}
-	});
-	$('#fulllist').click(function(){
-		if($(this).parent().hasClass('active') == false) {
+			$('#guests-container .field').slideDown();
+			$('.addedBy').hide();
+		});
+		$('#fulllist').click(function(){
 			$('li').children('.guest-entry').parent().slideDown();
-		}
-	});
-	$('.navbar-nav').children('li').click(function(){
-		$('.navbar-nav li.active').removeClass('active');
-		$(this).addClass('active');
+			$('#guests-container .field').slideUp();
+			$('.addedBy').show();
+		});
+		
+
+		//init my list view
+		$('#mylist').trigger('click');
 	});
 </script>

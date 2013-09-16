@@ -1,0 +1,10 @@
+
+<% if(user.verified) {%>
+	<h1>Verification successful for <%= user.username %></h1>
+	<a href="/">Log in to your account</a>
+<%} else { %>
+	<h1>Almost done!</h1>
+	<p>You must verify your account before you can procede to the list. You should
+		recieve an email with a verification link soon
+	</p>
+<% } %>

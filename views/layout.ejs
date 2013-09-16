@@ -28,21 +28,79 @@
     <link rel="stylesheet" type="text/css" href="/styles/list.css">
 
 
-     <!-- Latest compiled and minified CSS -->
+     <!-- bootstrap CSS and JS (replace soon with semantic) 
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+-->
+
+    <!-- Brick 1.0beta7 for mobile UI (coming soon...mobile page?-->
+    <link rel="stylesheet" type="text/css" href="/brick/brick-1.0beta7.css">
+    <script type="text/javascript" src="/brick/brick-1.0beta7.js"></script>
+
+    <!-- Semantic CSS and JS for semantic UI -->
+    <link rel="stylesheet" type="text/css" href="/semantic-ui/css/semantic.min.css">
+    <script type="text/javascript" src="/semantic-ui/javascript/semantic.min.js"></script>
+
+
+    <style type="text/css">
+        body {
+            background-color: #E3DED8;
+        }
+
+        .ui.inverted.menu {
+            background-color: #9A7879;
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //controller for the menu items
+            $('.menu').each(function(){
+                var sibblings = $(this).children('.item');
+                sibblings.each(function(){
+                    $(this).click(function(){
+                        sibblings.removeClass('active')
+                        $(this).addClass('active');
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
+    <!--
     <div id="topBanner" class="navbar navbar-static-top">
         <ul style="width:100%" class="nav navbar-nav">
             <a class="navbar-brand" href="#">ListLSS</a>
-            <li class="active"><a id="fulllist">View Party List</a></li>
-            <li><a id="mylist">My List</a></li>
+            <li><a id="fulllist">Full Party List</a></li>
+            <li class="active"><a  id="mylist">My List</a></li>
             <p class="navbar-text pull-right navUsername"><a href="/signout">Logout</a></p>
         </ul>
+    </div>
+-->
+    <div class="ui tiered inverted menu">
+        <div class="menu">
+            <a class="item">
+                <i class="home icon"></i> ListLSS
+            </a>
+            <a id="partyList" class="item">
+                <i class="list layout icon"></i> Party List
+            </a>
+            <div class="right menu">
+                <a class="item" href="/signout">
+                    <i class="cancel circle"></i> Logout
+                </a>
+            </div>
+        </div>
+        <div style="display: none" id="listViewOptions" class="ui sub secondary pointing menu">
+            <a class="item" id="fulllist">
+                <i class="community icon"></i>Full List
+            </a>
+            <a class="item" id="mylist">
+                <i class="users icon"></i>My List
+            </a>
+        </div>
     </div>
 <%- body %>
 

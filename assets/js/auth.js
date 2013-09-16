@@ -1,7 +1,7 @@
 $(document).ready(function(){
-$('.login-container .login-submit').click(function(){
-	var username = $('.login-container .username').val();
-	var password = $('.login-container .password').val();
+$('#login-submit').click(function(){
+	var username = $('#login-email').val();
+	var password = $('#login-password').val();
 
 	console.log('password: ' + password);
 	$.post('/login',{username: username, password: password}, function(data){
@@ -16,16 +16,28 @@ $('.login-container .login-submit').click(function(){
 		}
 	});
 });
-
+function validEmail(email) {
+	/* Verify that the provided email address is of the valid .wpi format */
+	email = email.split('@');
+	return (email.length == 2 && email[1] == 'wpi.edu');
+}
 console.log('js loading');
-$('.signup-container .signup-submit').click(function(){
-	var username = $('.signup-container .username').val();
-	var password = $('.signup-container .password').val();
-	var passwordCheck = $('.signup-container .password-check').val();
-	var firstName = $('.signup-container .firstname').val();
-	var lastName = $('.signup-container .lastname').val();
+$('#signup-begin').click(function(){
+	$(this).hide();
+	$('#signup-form').show(400);
+});
+$('#signup-submit').click(function(){
+	var username = $('#signup-email').val();
+	var password = $('#signup-password').val();
+	var passwordCheck = $('#signup-passwordCheck').val();
+	var firstName = $('#signup-fname').val();
+	var lastName = $('#signup-lname').val();
 
 	if (username && password && passwordCheck && firstName && lastName) {
+
+		if (!validEmail(username)){
+			alert("must enter a valid WPI email address");
+		}
 		if (password === passwordCheck) {
 			console.log('using password: ' + password);
 			$.post('/signup',
@@ -35,11 +47,7 @@ $('.signup-container .signup-submit').click(function(){
 						lastName: lastName},
 					function(res){
 						console.log(res.responseText);
-						if (res.status == 'OK') {
-							window.location = '/list';
-						}
 					}).fail(function(res){
-						alert('fail');
 						if(window.console){
 							console.log(res.responseText);
 						}

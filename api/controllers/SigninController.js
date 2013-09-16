@@ -16,12 +16,15 @@ var SigninController = {
 				res.send(500,{error: 'DB error'});
 			} else if (usr.length > 0) {
 				var usr = usr[0];
+
+				if (!usr.verified) {
+					res.send(400,{error: 'user not yet verified'});
+					console.log('user not yet verified');
+				}
 				var hasher = require('password-hash');
 				if (hasher.verify(password, usr.password)) {
 					req.session.user = usr;
 					res.send(usr);
-				} else if (usr.username == username) {
-					res.send(400,{error: 'weird database '});
 				} else {
 					res.send(400,{error: 'Incorrect password', usr: usr});
 				}
