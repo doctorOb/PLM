@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div id="guests-container" class="ui two column middle aligned grid basic segment">
 	<div class="guys-container column">
 		<div class="ui form">
@@ -23,6 +24,34 @@
 			</div>
 		</div>
 		<div class="ui selection list list-group girls"></div>
+=======
+<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default guest-submit male" type="button">Go!</button>
+      </span>
+      <input id="addM" type="text" class="form-control guestName-M" placeholder="His name..">
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input id="addF" type="text" class="form-control guestName-F" placeholder="Her name..">
+      <span class="input-group-btn">
+      	<button class="btn btn-default guest-submit female" type="button">Go!</button>
+      </span>
+    </div>
+  </div>
+</div>
+<div id="guests-container" class="full">
+	<div class="guys-container">
+		<h4>Gents <span class="badge" id="guy-count">0</span></h4>
+		<ul class="list-group guys" id="guy-list"></ul>
+	</div>
+	<div class="girls-container">
+		<h4>Dames <span class="badge" id="girl-count">0</span></h4>
+		<ul class="list-group girls" id="girl-list"></ul>
+>>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
 	</div>
 </div>
 
@@ -131,9 +160,7 @@
 					});
 				},
 				error: function(model, response){
-					if (response.responseText.length > 0) {
-						alert(response.responseText);
-					}
+					alert(response.responseText);
 				},
 				wait: true}
 			);
@@ -188,7 +215,6 @@
 			return this;
 		},
 		add: function (guest) {
-			console.log(guest,"asdfasdf");
 			this.appendByGender(guest);
 			this.updateCount(guest,1)
 		},
@@ -199,16 +225,19 @@
 	});
 
 	var guestList = new GuestsCollection();
+	var isMyList = false;
 
 	guestList.fetch({
 		success: function() {
 			var gView = new GuestListView({collection: guestList});
+			$('#mylist').click();
 		},
 		error: function() {
 			console.log('guest list fetch failed!');
 		}
 	});
 
+<<<<<<< HEAD
 	$(document).ready(function(){
 		$('#listViewOptions').show();
 		$('#partList').addClass('active');
@@ -246,5 +275,53 @@
 
 		//init my list view
 		$('#mylist').trigger('click');
+=======
+		if (verifyName(name)) {
+			guestList.create({name: formatName(name), gender: gender, addedBy: "<%= username %>"}, {
+				error: function(model, response){
+					alert(response.responseText);
+				},
+				wait: true}
+			);
+		} else {
+			alert('please include a first and last name');
+		}
+	});
+	$('#mylist').click(function(){
+		if (isMyList) return;
+		isMyList = true;
+
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
+		}
+		for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
+			var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
+			if ($('#guy-list').has(box).length) {
+				$('#guy-count').text($('#guy-count').text() - 1.0);
+			} else {
+				$('#girl-count').text($('#girl-count').text() - 1.0);
+			}
+		}
+	});
+	$('#fulllist').click(function(){
+		if (!isMyList) return;
+		isMyList = false;
+
+		if($(this).parent().hasClass('active') == false) {
+			$('li').children('.guest-entry:not(.editable)').parent().slideDown();
+		}
+		for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
+			var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
+			if ($('#guy-list').has(box).length) {
+				$('#guy-count').text($('#guy-count').text() - (-1));
+			} else {
+				$('#girl-count').text($('#girl-count').text() - (-1));
+			}
+		}
+	});
+	$('.navbar-nav').children('li').click(function(){
+		$('.navbar-nav li.active').removeClass('active');
+		$(this).addClass('active');
+>>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
 	});
 </script>

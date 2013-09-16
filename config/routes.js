@@ -57,6 +57,7 @@ module.exports.routes = {
     action: 'list'
   },
 
+<<<<<<< HEAD
   '/print': {
     controller: 'guests',
     action: 'print'
@@ -65,6 +66,16 @@ module.exports.routes = {
   '/verify': {
     controller: 'main',
     action: 'verify'
+=======
+  '/admin': {
+    controller: 'configs',
+    action: 'index'
+  },
+
+   '/adminupdate': {
+    controller: 'configs',
+    action: 'update'
+>>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
   }
 
   /*

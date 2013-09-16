@@ -14,6 +14,7 @@ var GuestsController = {
   	} else {
   		res.redirect('/');
   	}
+<<<<<<< HEAD
   },
 
   print: function(req,res) {
@@ -41,6 +42,8 @@ var GuestsController = {
   	});
 
   	res.view({guysList: guys, girlsList: girls});
+=======
+>>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
   }
   
 };
