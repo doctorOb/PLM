@@ -8,14 +8,10 @@
 var MainController = {
 
 	index: function (req, res) {
-<<<<<<< HEAD
-		res.view({user: req.session.user});
-=======
 		if (req.session.user) {
 			req.session.user = null;
 		}
-		res.view();
->>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
+		res.view({user: req.session.user, url: '/'});
 	},
 	signup: function (req, res) {
 		var username = req.param('username');
@@ -61,7 +57,7 @@ var MainController = {
 			if(err){
 				console.log(err);
 			} else {
-				res.view({user: user});
+				res.view({user: user, url: ''});
 			}
 		});
 	}

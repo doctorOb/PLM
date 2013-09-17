@@ -35,7 +35,7 @@ var ConfigsController = {
 			conf.minimumGirlRatio = minimumGirlRatio;
 
 			conf.save(function (err) {
-       		if (err) return res.send(err,500);
+       			if (err) return res.send(err,500);
         		res.json(conf);
       		});
 	 	 });

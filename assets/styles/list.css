@@ -23,8 +23,8 @@
 	width: 500px;
 }
 .list-group.guys .list-group-item {
-	border: 1px solid white;
-	background-color:rgba(255,195,195,.8);
+	border: 1px solid rgba(220,220,220,.6);
+	background-color: rgba(207,126,126, 0.8);
 }
 
 .list-group.guys .list-group-item:hover{
@@ -32,8 +32,8 @@
 }
 
 .list-group.girls .list-group-item {
-	background-color:rgba(150,241,220,.8);
-	border: 1px solid white;
+	background-color:rgba(151,194,184,.8);
+	border: 1px solid rgba(220,220,220,.6);
 }
 
 .list-group.girls .list-group-item:hover {
@@ -41,15 +41,31 @@
 }
 .list-group-item {
 	padding: 0;
-	width: 100%;
-	padding: 10px 10px 10px 15px !important;
+	padding: 5px 5px 5px 10px;
 }
 
 .list-group-item .guest-entry.editable {
 	width: 70%;
 }
 
+.list-group-item .guest-entry {
+	font-size: medium;
+}
 
+/*
+#554433
+#aa8888
+#cccccc
+#ddddcc
+#ccbbbb
+dull	
+#663333
+#aa8877
+#ccccbb
+#eeddcc
+#ccbbaa
+
+*/
 .list-group-item input,
 .list-group-item input:focus {
 	outline: none;
@@ -58,5 +74,20 @@
 }
 
 .list-group-item .addedBy {
-	color: #CCC;
+	float: left;
+	padding-right: 10px;
+	color: #E7E7E7;
+}
+
+.guest-details {
+	margin-top: 4px;
+	float: right;
+}
+.icon.close {
+	float: right;
+	opacity: .3;
+}
+
+.icon.close:hover {
+	opacity: .9;
 }

@@ -10,10 +10,10 @@ module.exports = function(req,res,next) {
 		}
 
 		Configs.findByOrganization('SigmaPiGammaIota').done(function(err,conf){
-			conf = conf[0];
-			if (conf.length == 0 || err) {
+			if (err || conf.length == 0) {
 				return next(); //no configs to check, pass on
 			}
+			conf = conf[0]
 			var ratio = conf.minimumGirlRatio;
 			if (ratio > 0) {
 				var allowable = Math.ceil(guyCount * ratio);

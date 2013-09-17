@@ -42,8 +42,6 @@ module.exports = {
 			}
 		});
 
-		console.log('in b4 create');
-
 		values.verifyToken = Math.random().toString(36).split('.')[1];
 		var mailOptions = {
 			from: "Sigma Pi Party List ✔ <lss-plm@gmail.com",

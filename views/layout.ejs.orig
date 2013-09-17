@@ -48,7 +48,7 @@
         }
 
         .ui.inverted.menu {
-            background-color:  #9A7879;
+            background-color: #9A7879;
         }
     </style>
 
@@ -69,16 +69,29 @@
 </head>
 
 <body>
+    <!--
+    <div id="topBanner" class="navbar navbar-static-top">
+        <ul style="width:100%" class="nav navbar-nav">
+<<<<<<< HEAD
+            <a class="navbar-brand" href="#">ListLSS</a>
+            <li><a id="fulllist">Full Party List</a></li>
+            <li class="active"><a  id="mylist">My List</a></li>
+=======
+            <a class="navbar-brand" href="/list">ListLSS</a>
+            <li><a id="mylist">My List</a></li>
+            <li class="active"><a id="fulllist">Party List</a></li>
+>>>>>>> a303ae3bf3d0d241d63ec28b5203a6d857cf3e9f
+            <p class="navbar-text pull-right navUsername"><a href="/signout">Logout</a></p>
+        </ul>
+    </div>
+-->
     <div class="ui tiered inverted menu">
         <div class="menu">
-            <a id="home" class="item <%if(url == '/'){%>active<%}%>" href="/">
-                <i class="book icon"></i>ListLSS
+            <a class="item">
+                <i class="home icon"></i> ListLSS
             </a>
-            <a id="partyList" class="item <%if(url == '/list'){%>active<%}%>" href="/list">
+            <a id="partyList" class="item">
                 <i class="list layout icon"></i> Party List
-            </a>
-            <a class="item <%if(url == '/print'){%>active<%}%>" href="/print">
-                <i class="print icon"></i>Printable List
             </a>
             <div class="right menu">
                 <a class="item" href="/signout">

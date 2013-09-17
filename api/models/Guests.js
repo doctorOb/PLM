@@ -5,6 +5,13 @@
  * @description :: A short summary of how this model works and what it represents.
  *
  */
+function deriveNames(values){
+	var last = values.name.split(' ');
+	last = last[last.length -1];
+	values.lastName = last[0].toUpperCase() + last.substr(1);
+	values.firstName = values.name.replace(values.lastName,'').trim();
+	values.compareableName = values.name.replace(/ /,'').toLowerCase();
+}
 
 module.exports = {
 
@@ -21,12 +28,21 @@ module.exports = {
 	},
   	beforeCreate: function(values,next){
   		/* pull the last name from the guest name, and store it for sorting by*/
-  		var last = values.name.split(' ');
-  		last = last[last.length -1];
-  		values.lastName = last[0].toUpperCase() + last.substr(1);
-  		values.firstName = values.name.substr(0,values.name.indexOf(values.lastName) - 1)
-  		values.compareableName = values.name.replace(/ /,'').toLowerCase();
-  		console.log(values.compareableName);
+  		deriveNames(values);
   		next();
+  	},
+
+  	beforeUpdate: function(values,next){
+  		deriveNames(values);
+  		Guests.findOneByCompareableName(values.compareReqName).done(function(err, guest){
+			if (guest != null) {
+				res.send(400, 'duplicate user');
+				isDuplicate = true;
+			} else {
+				next();
+			}
+		});
+
+
   	}
 };

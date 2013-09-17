@@ -1,9 +1,18 @@
 <h1>Admin Console</h1>
-<div class="login-container">
-	<input id='org' type="text" class="organization" />
-	<input id='adm' type="text" class="adminUsername" />
-	<input id='mgr' type="text" class="minimumGirlRatio" />
-	<button type="button" class="admin-submit">Update</button>
+<div class="ui small form segment" style="width: 50%">
+	<div class="field">
+		<label>Organization name</label>
+		<input id='org' type="text" class="ui input organization" placeholder="<%= conf.organization %>">
+	</div>
+	<div class="field">
+		<label>Admin Username</label>
+		<input id='adm' type="text" class="ui input adminUsername" placeholder="<%= conf.adminUsername%>">
+	</div>
+	<div class="inline field">
+		Must have <input id='mgr' type="text" class="ui small input minimumGirlRatio" 
+						placeholder="<%= conf.minimumGirlRatio %>" /> girls to add 1 guy
+	</div>
+	<button type="button" class="ui button admin-submit">Update</button>
 </div>
 
 <script type="text/javascript">

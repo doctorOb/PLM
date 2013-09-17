@@ -1,0 +1,5 @@
+1. Fix update, prevent duplicates on update
+2. Make update more obvious to non power users
+3. Display message on signup
+4. Fix print (when there's no guys list?)
+5. Update guest count when switching between full and personal list

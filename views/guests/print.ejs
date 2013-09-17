@@ -1,15 +1,18 @@
+<a class="ui button xls" href="/export?gender=M"><i class="ui doc icon"></i>Guys List</a>
+<a class="ui button xls" href="/export?gender=F"><i class="ui doc icon"></i>Girls List</a>
+
 <h1>Guys</h1>
 <table class="ui celled table segment">
 	<thead>
 		<tr><th>Name</th>
-			<th>Signature</th>
+			<th>Added By</th>
 		</tr>
 	</thead>
 	<tbody>
 		<% for(var i = 0; i < guysList.length; i++) {%>
 			<tr>
 				<td><%= guysList[i].lastName %>, <%= guysList[i].firstName %></td>
-				<td></td>
+				<td><%= guysList[i].addedBy.substring(0,guysList[i].addedBy.indexOf('@')) %></td>
 			</tr>
 		<% } %>
 	</tbody>
@@ -18,15 +21,16 @@
 <table class="ui celled table segment">
 	<thead>
 		<tr><th>Name</th>
-			<th>Signature</th>
+			<th>Added By</th>
 		</tr>
 	</thead>
 	<tbody>
 		<% for(var i = 0; i < girlsList.length; i++) {%>
 			<tr>
 				<td><%= girlsList[i].lastName %>, <%= girlsList[i].firstName %></td>
-				<td></td>
+				<td><%= girlsList[i].addedBy.substring(0,girlsList[i].addedBy.indexOf('@')) %></td>
 			</tr>
 		<% } %>
 	</tbody>
 </table>
+
