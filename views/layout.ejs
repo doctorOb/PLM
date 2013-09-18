@@ -50,13 +50,17 @@
         .ui.inverted.menu {
             background-color:  #9A7879;
         }
+
+        .username {
+            color: #cccccc !important;
+        }
     </style>
 
     <script type="text/javascript">
         $(document).ready(function(){
             //controller for the menu items
             $('.menu').each(function(){
-                var sibblings = $(this).children('.item');
+                var sibblings = $(this).children('.item:not(.username)');
                 sibblings.each(function(){
                     $(this).click(function(){
                         sibblings.removeClass('active')
@@ -80,11 +84,14 @@
             <a class="item <%if(url == '/print'){%>active<%}%>" href="/print">
                 <i class="print icon"></i>Printable List
             </a>
-            <div class="right menu">
-                <a class="item" href="/signout">
-                    <i class="cancel circle"></i> Logout
-                </a>
-            </div>
+            <%if(user){%>
+                <div class="right menu">
+                    <div class="item username"><%= user.username.substring(0,user.username.indexOf('@'))%></div>
+                    <a class="item" href="/signout">
+                        <i class="cancel circle"></i> Logout
+                    </a>
+                </div>
+            <%}%>
         </div>
         <div style="display: none" id="listViewOptions" class="ui sub secondary pointing menu">
             <a class="item" id="fulllist">

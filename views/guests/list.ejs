@@ -33,9 +33,10 @@
 		var noInject = /[\^<,\"@\/\{\}\(\)\*\$%\?=>:\|;#]+/i;
 		if(!name || name.match(noInject) || !name.match(/[A-Za-z]*/)) {
 			return false;
-		} else {
-			if(name.split(/ (?=[A-Za-z])/).length > 4) return false;
+		} else if(2 < name.split(/ (?=[A-Za-z])/).length < 4) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -72,7 +73,7 @@
 							  "<div class='guest-details'>" +
 							  "<span style='display: none' class='addedBy'>{{addedBy}}</span>" +
 							  "<i class='close icon'></i>" +
-							  "</div"),
+							  "</div>"),
 
 		events: {
 			'keyup .guest-entry.editable' : 'editEntry',
@@ -101,20 +102,22 @@
 			var guest = this.model.toJSON();
 			var self = this;
 			clearTimeout(editTimeout);
-
+			
 			editTimeout = setTimeout(function(){
 				var text = self.$el.find(self.guestEditSelector).val();
 				if (text === guest.name) {
 					return false;
 				} else if (verifyName(text)){
 					text = formatName(text);
-					self.model.set({name: text});
 					self.model.save({name: text},{
 						success: function(model, resp) {
-							console.log('success!');
+							self.model.set({name: text});
 						},
 						error: function(model, resp) {
-							console.log('failed to update entry');
+							alert("error updating user," + resp.responseText);
+							self.model.set({name: guest.name});
+							self.$el.find(self.guestEditSelector).val(guest.name);
+							console.log('happened');
 						}
 					});
 				}
@@ -198,8 +201,7 @@
 				}
 			},this);
 
-			$('#guy-count').text(this.guys);
-			$('#girl-count').text(this.girls);
+			this.renderCount();
 
 			$('#fullist,#mylist').click(this.renderCount);
 			return this;

@@ -10,7 +10,7 @@ var GuestsController = {
 
   list: function(req, res) {
   	if(req.session.user) {
-  		res.view({username: req.session.user.username, url: '/list'});
+  		res.view({user: req.session.user, username: req.session.user.username, url: '/list'});
   	} else {
   		res.redirect('/');
   	}
@@ -18,7 +18,7 @@ var GuestsController = {
 
   print: function(req,res) {
   	var guys, girls;
-
+    console.log(req.session.user);
   	Guests.find({
   		gender: 'F'
   	}).sort('lastName ASC').done(function(err,guests){
@@ -35,7 +35,7 @@ var GuestsController = {
           } else {
             guys = guests;
             console.log(guys);
-            res.view({guysList: guys, girlsList: girls, url: '/print'});
+            res.view({user: req.session.user, guysList: guys, girlsList: girls, url: '/print'});
           }
         });
   		}

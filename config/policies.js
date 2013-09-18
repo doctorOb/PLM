@@ -20,6 +20,7 @@ module.exports.policies = {
   	'*': true,
   	create: 'canAdd',
   	destroy: 'canRemove',
+  	update: 'canUpdate',
   	list: 'authenticated'
   }
 
