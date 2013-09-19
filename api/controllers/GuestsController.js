@@ -35,7 +35,7 @@ var GuestsController = {
           } else {
             guys = guests;
             console.log(guys);
-            res.view({user: null, guysList: guys, girlsList: girls, url: '/print'});
+            res.view({user: req.session.user, guysList: guys, girlsList: girls, url: '/print'});
           }
         });
   		}

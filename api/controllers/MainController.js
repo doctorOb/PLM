@@ -62,7 +62,7 @@ var MainController = {
 			if(err){
 				console.log(err);
 			} else {
-				res.view({user: user, url: ''});
+				res.view({user: null, url: ''});
 			}
 		});
 	}
