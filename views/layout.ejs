@@ -84,7 +84,7 @@
             <a class="item <%if(url == '/print'){%>active<%}%>" href="/print">
                 <i class="print icon"></i>Printable List
             </a>
-            <%if(user && user.length){%>
+            <%if(user){%>
                 <div class="right menu">
                     <div class="item username"><%= user.username.substring(0,user.username.indexOf('@'))%></div>
                     <a class="item" href="/signout">
