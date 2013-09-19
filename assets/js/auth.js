@@ -10,10 +10,7 @@ $('#login-submit').click(function(){
 			window.location = '/list';
 		}
 	}).fail(function(res){
-		alert('something done fucked up with yeur reques bud.\n Why don\'tcha pull up them logs');
-		if(window.console){
-			console.log(res.responseText);
-		}
+		alert('error: server says\n' + res.responseText);
 	});
 });
 function validEmail(email) {
@@ -46,14 +43,12 @@ $('#signup-submit').click(function(){
 						firstName: firstName,
 						lastName: lastName},
 					function(res){
-						console.log(res.responseText);
+						alert("account creation successfu!\n However, you must complete our varification process. You will recieve an email shortly\n");
 					}).fail(function(res){
-						if(window.console){
-							console.log(res.responseText);
-						}
+						alert("error: server says\n" + res.responseText);
 					});
 		} else {
-			alert('passwords don\t match');
+			alert('passwords dont match');
 		}
 	} else {
 		alert('please fill in all fields');

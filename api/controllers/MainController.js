@@ -32,7 +32,7 @@ var MainController = {
 					} else {
 						req.session.user = user;
 						console.log(user);
-						res.redirect('/verify');
+						res.send('200',"success");
 					}
 				});
 			}

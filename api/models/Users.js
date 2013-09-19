@@ -47,7 +47,7 @@ module.exports = {
 			from: "Sigma Pi Party List ✔ <lss-plm@gmail.com",
 			to: values.username,
 			subject: "Verify Your Email",
-			html: "<a href='http://localhost:1337/verify?token=" + values.verifyToken + "'>Verify Account</a>"
+			html: "<a href='http://lss-plm.herokuapp.com/verify?token=" + values.verifyToken + "'>Verify Account</a>"
 		};
 
 		smtpTransport.sendMail(mailOptions,function(error,response){
