@@ -36,7 +36,6 @@ var MainController = {
 						req.send('500', {error: "error creating username,sorry"});
 					} else {
 						req.session.user = user;
-						console.log(user);
 						res.send('200',"success");
 					}
 				});

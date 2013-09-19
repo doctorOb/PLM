@@ -31,13 +31,14 @@ $('#signup-submit').click(function(){
 	var lastName = $('#signup-lname').val();
 	var code = $('#signup-code').val();
 
+
 	if (username && password && passwordCheck && firstName && lastName && code) {
 
 		if (!validEmail(username)){
 			alert("must enter a valid WPI email address");
 		}
 		if (password === passwordCheck) {
-			console.log('using password: ' + password);
+			$('#signup-submit').addClass('disabled');
 			$.post('/signup',
 					{username: username,
 						code: code,

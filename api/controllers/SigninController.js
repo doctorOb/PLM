@@ -24,7 +24,7 @@ var SigninController = {
 				var hasher = require('password-hash');
 				if (hasher.verify(password, usr.password)) {
 					req.session.user = usr;
-					res.send(usr);
+					res.send(200,usr);
 				} else {
 					res.send(400,{error: 'Incorrect password', usr: usr});
 				}
