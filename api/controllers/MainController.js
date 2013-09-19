@@ -17,6 +17,11 @@ var MainController = {
 		var username = req.param('username');
 		var password = req.param('password');
 		var name = req.param('firstName') + req.param('lastName');
+		var code = req.param('code');
+
+		if(!code || code != 'eightween9tse7en'){
+			res.send('500', 'wrong pass code');
+		}
 
 		Users.findByUsername(username).done(function(err,user) {
 			if (err){

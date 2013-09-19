@@ -29,8 +29,9 @@ $('#signup-submit').click(function(){
 	var passwordCheck = $('#signup-passwordCheck').val();
 	var firstName = $('#signup-fname').val();
 	var lastName = $('#signup-lname').val();
+	var code = $('#signup-code').val();
 
-	if (username && password && passwordCheck && firstName && lastName) {
+	if (username && password && passwordCheck && firstName && lastName && code) {
 
 		if (!validEmail(username)){
 			alert("must enter a valid WPI email address");
@@ -39,6 +40,7 @@ $('#signup-submit').click(function(){
 			console.log('using password: ' + password);
 			$.post('/signup',
 					{username: username,
+						code: code,
 						password: password,
 						firstName: firstName,
 						lastName: lastName},
