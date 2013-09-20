@@ -14,7 +14,7 @@ var ConfigsController = {
 			Configs.findById(1).done(function(err,conf){
 				conf = conf[0];
 				if (req.session.user.username == conf.adminUsername) {
-	  				res.view({conf: conf});
+	  				res.view({username: req.session.username, conf: conf});
 	  			} else {
 	  				res.redirect('/');
 	 	 		}

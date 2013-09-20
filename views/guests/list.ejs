@@ -181,8 +181,8 @@
 			}
 		},
 
-		renderCount: function () {
-			if($('#fullist').hasClass('active')){
+		renderCount: function (full) {
+			if(full){
 				$('#guy-count').text(this.guys);
 				$('#girl-count').text(this.girls);
 			} else {
@@ -201,9 +201,14 @@
 				}
 			},this);
 
-			this.renderCount();
-
-			$('#fullist,#mylist').click(this.renderCount);
+			this.renderCount(false);
+			var that = this;
+			$('#fulllist').click(function(){
+				that.renderCount(true);
+			});
+			$('#mylist').click(function(){
+				that.renderCount(false);
+			});
 			return this;
 		},
 		add: function (guest) {

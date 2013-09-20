@@ -18,12 +18,14 @@ function validEmail(email) {
 	email = email.split('@');
 	return (email.length == 2 && email[1] == 'wpi.edu');
 }
-console.log('js loading');
 $('#signup-begin').click(function(){
 	$(this).hide();
 	$('#signup-form').show(400);
 });
+var signupClicked = false; //because of concurrency issue on server side or something
 $('#signup-submit').click(function(){
+	if(signupClicked) return false;
+	signupClicked = true;
 	var username = $('#signup-email').val();
 	var password = $('#signup-password').val();
 	var passwordCheck = $('#signup-passwordCheck').val();
@@ -36,9 +38,10 @@ $('#signup-submit').click(function(){
 
 		if (!validEmail(username)){
 			alert("must enter a valid WPI email address");
+			signupClicked = false;
+			return;
 		}
 		if (password === passwordCheck) {
-			$('#signup-submit').addClass('disabled');
 			$.post('/signup',
 					{username: username,
 						code: code,
@@ -52,9 +55,11 @@ $('#signup-submit').click(function(){
 					});
 		} else {
 			alert('passwords dont match');
+			signupClicked = false;
 		}
 	} else {
 		alert('please fill in all fields');
+		signupClicked = false;
 	}
 });
 

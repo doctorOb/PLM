@@ -1,6 +1,6 @@
 module.exports = function(req,res,next) {
 	var isDuplicate = false;
-	compareReqName = req.param('name').replace(/ /,'').toLowerCase();
+	compareReqName = req.param('name').replace(/[\s\-\']/g,'').toLowerCase();
 
 	Guests.findOneByCompareableName(compareReqName).done(function(err, guest){
 		if (guest != null) {

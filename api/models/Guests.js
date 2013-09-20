@@ -9,8 +9,8 @@ function deriveNames(values){
 	var last = values.name.split(' ');
 	last = last[last.length -1];
 	values.lastName = last[0].toUpperCase() + last.substr(1);
-	values.firstName = values.name.replace(values.lastName,'').trim();
-	values.compareableName = values.name.replace(/ /g,'').toLowerCase();
+	values.firstName = values.name.substring(0,values.name.indexOf(' '))
+	values.compareableName = values.name.replace(/[\s\-\']/g,'').toLowerCase();
 }
 
 module.exports = {
@@ -33,7 +33,6 @@ module.exports = {
   	},
   	beforeUpdate: function(values,next){
   		deriveNames(values);
-  		console.log(values);
   		next();
   	}
 };
