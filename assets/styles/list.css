@@ -2,8 +2,9 @@
 	margin-left: 10px;
 }
 
-
-
+.filter {
+	display: none;
+}
 #guests-container {
 	margin: 0 auto;
 }

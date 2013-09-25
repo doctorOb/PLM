@@ -2,17 +2,16 @@
  * MainController
  *
  * @module		:: Controller
- * @description	:: Contains logic for handling requests.
+ * @description	:: Contains logic for handling user account requests. This includes account
+ * creation and logins, as well as verification and logging out.
  */
 
 var MainController = {
 
 	index: function (req, res) {
-		if (req.session.user) {
-			req.session.user = null;
-		}
 		res.view({user: req.session.user, url: '/'});
 	},
+
 	signup: function (req, res) {
 		var username = req.param('username');
 		var password = req.param('password');
@@ -23,6 +22,9 @@ var MainController = {
 			res.send('500', 'wrong pass code');
 		}
 
+		/**
+		 * Check the DB to see if the username already exists, if not: hash their password and create them
+		*/
 		Users.findByUsername(username).done(function(err,user) {
 			if (err){
 				res.send('500', {error: "DB error"});
@@ -39,6 +41,34 @@ var MainController = {
 						res.send('200',"success");
 					}
 				});
+			}
+		});
+	},
+
+	login: function (req, res) {
+		var username = req.param('username');
+		var password = req.param('password');
+
+		Users.findByUsername(username).done(function(err, usr) {
+			if (err) {
+				res.send(500,{error: 'DB error'});
+			} else if (usr.length > 0) {
+				var usr = usr[0];
+
+				if (!usr.verified) {
+					res.send(400,{error: 'user not yet verified'});
+					console.log('user not yet verified');
+				}
+				var hasher = require('password-hash');
+				if (hasher.verify(password, usr.password)) {
+					req.session.user = usr;
+					res.send(200,usr);
+				} else {
+					res.send(400,{error: 'Incorrect password', usr: usr});
+				}
+
+			} else {
+				res.send(404,{error: 'User not found'});
 			}
 		});
 	},

@@ -1,16 +1,9 @@
+/**
+  * This policy hooks into 
+  *
+*/
+
 module.exports = function(req,res,next) {
-	var isDuplicate = false;
-	compareReqName = req.param('name').replace(/[\s\-\']/g,'').toLowerCase();
-
-	Guests.findOneByCompareableName(compareReqName).done(function(err, guest){
-		if (guest != null) {
-			res.send(400, 'duplicate user');
-			isDuplicate = true;
-		}
-	});
-
-	if (isDuplicate) return;
-
 	if (req.param('gender') == 'F') {
 		return next();
 	} else {

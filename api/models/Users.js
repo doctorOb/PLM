@@ -2,21 +2,12 @@
  * Users
  *
  * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
+ * @description :: This is the model for all users (brothers). The email verification is performed on the 
+ * client end. uses the 'nodemailer' node module to send an email to each user with a verification token 
+ * which is later used to index the user on the verification page.
  *
  */
 
- /*
-   		var hackeyAllowableBrothers = ["Anaya, Jerome"," Baker, Ryan"," Botaish, Christopher"," Calder, Michea",
-  										" Chaulk, Adam"," Claretti, Ennio"," Coffey, Daniel"," Conte, Micheal ",
-  										" Crivello, Matthew"," Curto, Joshua"," Derryberry, Michael"," Fano, Malcolm",
-  										" Gonyea, Cody"," Greenbaum, Benjamin"," Howard, Adam"," Jung, Bryan"," Kepka Calvetti, 
-  										Nicholas"," Miner, Elias"," Parmanand, Archit"," Potter, John"," Purnell, Jason",
-  										" Robertson, Daniel"," Romeo, Anthony"," Russell, Westley"," Scanlon, Alex",
-  										" Sherrod, Ronald"," Signore, Jefferey"," Smith, Sean"," Sontag, Christopher",
-  										" Starek, Peter"," Steeves, Matthew"," Thornhill, Ryan"," Toribio, Bryan",
-  										" Turland, Alexander"," Vardaro, Mike"," Velez, Alex"];
-*/
 var nodemailer = require("nodemailer");
 
 module.exports = {
@@ -27,12 +18,17 @@ module.exports = {
 		firstName: 'STRING',
 		lastName: 'STRING',
 		password: 'STRING',
-		verifyToken: 'STRING',
+		verifyToken: 'STRING', //random string stored temporarily for verification process.
 		verified: {
 			type: 'BOOLEAN',
 			defaultsTo: false
 		}
 	},
+	/**
+	 * This function is called before the creation process. Here, we set up everything 
+	 * needed for email verification. I created a gmail account to use for sending the emails.
+	 * in the future, the email sent could stand to be a little more verbose
+	**/
 	beforeCreate: function(values, next){
 		var smtpTransport = nodemailer.createTransport("SMTP",{
 			service: "Gmail",

@@ -5,6 +5,7 @@
 			<div class="field">
 				<div class="ui action input">
 					<input id="addM" class="guestName-M" type="text" placeholder="His name...">
+					<div style="display: none" class=" inpErr ui red pointing above ui label" id="guyInputError"></div>
 					<div class="ui icon button guest-submit male"><i class="add user icon"></i></div>
 				</div>
 			</div>
@@ -18,6 +19,7 @@
 			<div class="field">
 				<div class="ui action input">
 					<input type="text" id="addF" class="guestName-F" placeholder="Her name...">
+					<div  style="display:none" class=" inpErr ui red pointing above ui label" id="guyInputError"></div>
 					<div class="ui icon button guest-submit female"><i class="add user icon"></i></div>
 				</div>
 			</div>
@@ -29,6 +31,21 @@
 
 <script type="text/javascript">
 
+	function inputError(selector, message) {
+		$(selector).parent().find('.inpErr')
+							.text(message)
+							.css({
+								position: 'absolute',
+								top: '35px',
+								left: '50px'
+							}).fadeIn();
+		$(selector).parent().addClass('error');
+
+		setTimeout(function(){
+			$(selector).parent().find('.inpErr').fadeOut();
+			$(selector).parent().removeClass('error');
+		},5000);
+	}
 	function verifyName(name) {
 		var noInject = /[\^<,\"@\/\{\}\(\)\*\$%\?=>:\|;#]+/i;
 		if(!name || name.match(noInject) || !name.match(/[A-Za-z]*/)) {
@@ -51,6 +68,13 @@
 			}
 		}
 		return formated.trim();
+	}
+
+	/** a naieve name comparison function. If the list size grows drastically, this will have to 
+	* change to something more clever (possibly dynamic)
+	*/
+	function compareName(a,b){
+		return (a.indexOf(b) >= 0);
 	}
 	var GuestsModel = Backbone.Model.extend({
 		urlRoot: '/guests',
@@ -84,6 +108,7 @@
 			var guest = this.model.toJSON();
 			var addedBy = guest.addedBy.split('@')[0];
 			this.$el.html(this.template({guest: guest, addedBy: addedBy}));
+			this.$el.data({compareableName: guest.name.replace(/[\s\-\']/g,'').toLowerCase()});
 
 
 			if (guest.addedBy == '<%= username %>') {
@@ -102,8 +127,9 @@
 			var guest = this.model.toJSON();
 			var self = this;
 			clearTimeout(editTimeout);
-			
+			var errorSelector = guest.gender == 'M' ? '#addM' : '#addF';
 			editTimeout = setTimeout(function(){
+
 				var text = self.$el.find(self.guestEditSelector).val();
 				if (text === guest.name) {
 					return false;
@@ -114,18 +140,21 @@
 							self.model.set({name: text});
 						},
 						error: function(model, resp) {
-							alert("error updating user," + resp.responseText);
+							inputError(errorSelector,'error updating ' + resp.responseText);
 							self.model.set({name: guest.name});
 							self.$el.find(self.guestEditSelector).val(guest.name);
 							console.log('happened');
 						}
 					});
+				} else {
+					console.log('else case in editEntry');
 				}
 			},1000)
 		},
 
 		killself: function() {
 			var that = this;
+			var errorSelector = this.model.toJSON().gender == 'M' ? '#addM' : '#addF';
 			if(this.model.toJSON().addedBy != '<%= username %>'){
 				return false;
 			}
@@ -137,7 +166,7 @@
 					});
 				},
 				error: function(model, response){
-					alert(response.responseText);
+					inputError(errorSelector,response.responseText);
 				},
 				wait: true}
 			);
@@ -245,61 +274,46 @@
 		$('.guest-submit').click(function(){
 			var name = $(this).hasClass('male') ? $('.guestName-M').val() : $('.guestName-F').val();
 			var gender = $(this).hasClass('male') ? 'M' : 'F';
+			var errorSelector = gender == 'M' ? '#addM' : '#addF';
 
 			if (verifyName(name)) {
 				guestList.create({name: formatName(name), gender: gender, addedBy: "<%= username %>"}, {
 					error: function(model, response){
-						alert(response.responseText);
+						inputError(errorSelector,response.responseText);
 					},
 					wait: true}
 				);
 			} else {
-				alert('names must contain between two and four words');
+				inputError(errorSelector,"names must be at least two words long");
+
 			}
 		});
 		$('#mylist').click(function(){
 			$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
-			$('#guests-container .field').slideDown();
 			$('.addedBy').hide();
 		});
 		$('#fulllist').click(function(){
 			$('li').children('.guest-entry').parent().slideDown();
-			$('#guests-container .field').slideUp();
 			$('.addedBy').show();
 		});
-		/*
-		$('#mylist').click(function(){
-			if (isMyList) return;
-			isMyList = true;
 
-			if($(this).parent().hasClass('active') == false) {
-				$('li').children('.guest-entry:not(.editable)').parent().slideUp(400);
-			}
-			for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
-				var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
-				if ($('#guy-list').has(box).length) {
-					$('#guy-count').text($('#guy-count').text() - 1.0);
-				} else {
-					$('#girl-count').text($('#girl-count').text() - 1.0);
-				}
-			}
-		});
-		$('#fulllist').click(function(){
-			if (!isMyList) return;
-			isMyList = false;
+		/**
+		 * filter visible guests by matching name as guests are added to the list, so that the
+		 * add guest field also acts as a filter/search form
+		 */
+		$('#addM,#addF').keyup(function(e){
+			var visibilityFilter = e.keyCode == 8 ? 'li' : 'li:not(.filter)';
 
-			if($(this).parent().hasClass('active') == false) {
-				$('li').children('.guest-entry:not(.editable)').parent().slideDown();
-			}
-			for (var i = 0; i < $('li').children('.guest-entry:not(.editable)').parent().length; i++) {
-				var box = $('li').children('.guest-entry:not(.editable)').parent()[i];
-				if ($('#guy-list').has(box).length) {
-					$('#guy-count').text($('#guy-count').text() - (-1));
+			var forList = $(this).hasClass('guestName-M') ? 'guys' : 'girls';
+			var searchval = $(this).val().toLowerCase().replace(/[\s\-\']/g,'');
+
+			$('.list-group.' + forList + ' ' + visibilityFilter).each(function(){
+				if (!compareName($(this).data('compareableName'),searchval)) {
+					$(this).addClass('filter');
 				} else {
-					$('#girl-count').text($('#girl-count').text() - (-1));
-				}
-			}
+					$(this).removeClass('filter');
+				}	
+			});
 		});
-		*/
 	});
 </script>

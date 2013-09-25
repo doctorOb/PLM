@@ -2,9 +2,17 @@
  * Guests
  *
  * @module      :: Model
- * @description :: A short summary of how this model works and what it represents.
+ * @description :: This model represents a guest. Their names are concatenated and lowercased in order 
+ * to simplify comparison. This falls short when a guest is one letter differnt then another.
+ * 
  *
  */
+
+ /**
+  * deriveNames takes an input guest name, provided by the client, and attempts to derive a 
+  * first, and last name. It then uses a simple regex to remove all spaces and lowerCase all 
+  * the characters so a name like JohnSmith and john smith are considred equal when compared.
+ **/
 function deriveNames(values){
 	var last = values.name.split(' ');
 	last = last[last.length -1];
@@ -25,13 +33,17 @@ module.exports = {
 		cardID: 'STRING',
 		gender: 'STRING',
 		addedBy: 'STRING',
+		isSimilar: function(){
+			
+		}
 	},
   	beforeCreate: function(values,next){
-  		/* pull the last name from the guest name, and store it for sorting by*/
+  		/* pull the last name from the guest name, and store it for sorting */
   		deriveNames(values);
   		next();
   	},
   	beforeUpdate: function(values,next){
+  		/* the same as with create */
   		deriveNames(values);
   		next();
   	}
