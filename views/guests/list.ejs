@@ -96,7 +96,7 @@
 							  "value='{{guest.name}}'/>" +
 							  "<div class='guest-details'>" +
 							  "<span style='display: none' class='addedBy'>{{addedBy}}</span>" +
-							  "<i class='close icon'></i>" +
+							  "<i style='display : none' class='close icon'></i>" +
 							  "</div>"),
 
 		events: {
@@ -113,6 +113,7 @@
 
 			if (guest.addedBy == '<%= username %>') {
 				this.$el.find(this.guestEditSelector).addClass('editable');
+				this.$el.find('.close.icon').show();
 			} else {
 				this.$el.find(this.guestEditSelector).attr('readonly',true);
 			}
@@ -300,7 +301,7 @@
 		/**
 		 * filter visible guests by matching name as guests are added to the list, so that the
 		 * add guest field also acts as a filter/search form
-		 */
+		 
 		$('#addM,#addF').keyup(function(e){
 			var visibilityFilter = e.keyCode == 8 ? 'li' : 'li:not(.filter)';
 
@@ -315,5 +316,6 @@
 				}	
 			});
 		});
+*/
 	});
 </script>

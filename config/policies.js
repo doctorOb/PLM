@@ -18,9 +18,9 @@ module.exports.policies = {
 
   GuestsController: {
   	'*': true,
-  	create: ['verifyAccess','uniqueGuest', 'canAdd'],
-  	destroy: ['verifyAccess','canRemove'],
-  	update: ['verifyAccess','uniqueGuest'],
+  	create: ['verifyAccess','canAdd'],//['verifyAccess','uniqueGuest', 'canAdd'],
+  	destroy: 'verifyAccess',//['verifyAccess','canRemove'],
+  	update: 'verifyAccess',//['verifyAccess','uniqueGuest'],
   	list: 'authenticated'
   }
 
