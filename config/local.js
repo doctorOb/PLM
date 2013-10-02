@@ -1,3 +1,4 @@
+
 /**
  * Local environment settings
  *
@@ -36,7 +37,7 @@ module.exports = {
   // In production, you'll probably want to change this setting 
   // to 80 (http://) or 443 (https://) if you have an SSL certificate
 
-  port: 80,
+  port: 1337,
 
 
 

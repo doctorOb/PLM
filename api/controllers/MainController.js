@@ -31,8 +31,6 @@ var MainController = {
 			} else if (user.length > 0) {
 				res.send('400', {error: "User exists!"});
 			} else {
-				var hasher = require('password-hash');
-				password = hasher.generate(password);
 				Users.create({username: username, password: password, name: name}).done(function(error,user){
 					if (error) {
 						req.send('500', {error: "error creating username,sorry"});
@@ -57,14 +55,13 @@ var MainController = {
 
 				if (!usr.verified) {
 					res.send(400,{error: 'user not yet verified'});
-					console.log('user not yet verified');
 				}
 				var hasher = require('password-hash');
 				if (hasher.verify(password, usr.password)) {
 					req.session.user = usr;
 					res.send(200,usr);
 				} else {
-					res.send(400,{error: 'Incorrect password', usr: usr});
+					res.send(400,{error: 'Incorrect password'});
 				}
 
 			} else {

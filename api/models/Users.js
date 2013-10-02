@@ -9,7 +9,7 @@
  */
 
 var nodemailer = require("nodemailer");
-
+var hasher = require('password-hash');
 module.exports = {
 
 	attributes: {
@@ -30,6 +30,9 @@ module.exports = {
 	 * in the future, the email sent could stand to be a little more verbose
 	**/
 	beforeCreate: function(values, next){
+
+
+		values.password = hasher.generate(values.password);
 		var smtpTransport = nodemailer.createTransport("SMTP",{
 			service: "Gmail",
 			auth: {
